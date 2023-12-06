@@ -116,7 +116,7 @@ async function completeStory() {
 
     if (storyId && promptText) {
         try {
-            const response = await fetch(`http://127.0.0.1:8000/stories/${storyId}/add_part`, {
+            const response = await fetch(`http://127.0.0.1:8000/stories/${storyId}/add_part?prompt=${promptText}`, {
                 method: 'POST',
                 headers: {
                     'Content-Type': 'application/json',
@@ -156,4 +156,138 @@ function displayStory(story) {
                                 <p>Description: ${story.description}</p>
                                 <p>Category: ${story.category}</p>
                                 <p>Content: ${story.content}</p>`;
+}
+
+async function listAllStories() {
+    try {
+        const response = await fetch('http://127.0.0.1:8000/stories', {
+            method: 'GET',
+            headers: {
+                'Content-Type': 'application/json',
+                'Authorization': `Bearer ${token}`,
+            },
+        });
+
+        const stories = await response.json();
+
+        if (response.ok) {
+            displayStoriesList(stories);
+        } else {
+            alert(`Error: ${stories.detail}`);
+        }
+    } catch (error) {
+        console.error("Error while fetching stories:", error);
+        alert("An error occurred while fetching stories. Please try again.");
+    }
+}
+
+async function listSpecificStory(storyId) {
+    try {
+        const response = await fetch(`http://127.0.0.1:8000/stories/${storyId}`, {
+            method: 'GET',
+            headers: {
+                'Content-Type': 'application/json',
+                'Authorization': `Bearer ${token}`,
+            },
+        });
+
+        const story = await response.json();
+
+        if (response.ok) {
+            displayStory(story);
+        } else {
+            alert(`Error: ${story.detail}`);
+        }
+    } catch (error) {
+        console.error("Error while fetching a specific story:", error);
+        alert("An error occurred while fetching the story. Please try again.");
+    }
+}
+
+async function updateStory(storyId) {
+    const newContent = prompt("Enter the updated title of the story:");
+    const newContent2 = prompt("Enter the updated description of the story:");
+    const newContent3 = prompt("Enter the updated category of the story:");
+    const newContent4 = prompt("Enter the updated content of the story:");
+
+    if (newContent) {
+        try {
+            const response = await fetch(`http://127.0.0.1:8000/stories/${storyId}`, {
+                method: 'PUT',
+                headers: {
+                    'Content-Type': 'application/json',
+                    'Authorization': `Bearer ${token}`,
+                },
+                body: JSON.stringify({
+                    title: newContent,
+                    description: newContent2,
+                    category: newContent3,
+                    content: newContent4,
+                }),
+            });
+
+            const updatedStory = await response.json();
+
+            if (response.ok) {
+                displayStory(updatedStory);
+            } else {
+                alert(`Error: ${updatedStory.detail}`);
+            }
+        } catch (error) {
+            console.error("Error during story update:", error);
+            alert("An error occurred during story update. Please try again.");
+        }
+    }
+}
+
+async function deleteStory(storyId) {
+    try {
+        const response = await fetch(`http://127.0.0.1:8000/stories/${storyId}`, {
+            method: 'DELETE',
+            headers: {
+                'Content-Type': 'application/json',
+                'Authorization': `Bearer ${token}`,
+            },
+        });
+
+        const deletedStory = await response.json();
+
+        if (response.ok) {
+            alert(`Story ID ${deletedStory.id} deleted successfully.`);
+            removeStoryFromList(storyId);  // Remova a história da lista em tempo real
+        } else {
+            alert(`Error: ${deletedStory.detail}`);
+        }
+    } catch (error) {
+        console.error("Error during story deletion:", error);
+        alert("An error occurred during story deletion. Please try again.");
+    }
+}
+
+function removeStoryFromList(storyId) {
+    const storyListContainer = document.getElementById('story-container');
+    const storyItem = document.getElementById(`story-${storyId}`);
+    
+    if (storyItem) {
+        storyListContainer.removeChild(storyItem);
+    }
+}
+
+function displayStoriesList(stories) {
+    const storyListContainer = document.getElementById('story-container');
+    storyListContainer.innerHTML = '<h3>All Stories</h3>';
+    
+    if (stories.length === 0) {
+        storyListContainer.innerHTML += '<p>No stories available.</p>';
+    } else {
+        stories.forEach((story) => {
+            storyListContainer.innerHTML += `<div id="story-${story.id}">
+                                                <p>${story.title} - 
+                                                    <button class="btn-primary" onclick="listSpecificStory(${story.id})">View</button> 
+                                                    <button class="btn-success" onclick="updateStory(${story.id})">Update</button> 
+                                                    <button class="btn-danger" onclick="deleteStory(${story.id})">Delete</button>
+                                                </p>
+                                            </div>`;
+        });
+    }
 }

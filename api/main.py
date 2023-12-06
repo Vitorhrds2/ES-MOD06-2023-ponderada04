@@ -60,22 +60,16 @@ def delete_story(story_id: int, db: Session = Depends(get_db)):
 
 
 @app.post("/stories/{story_id}/add_part", response_model=schemas.Story)
-async def add_story_part(story_id: int, request: Request, db: Session = Depends(get_db)):
+async def add_story_part(story_id: int, prompt: str,  request: Request, db: Session = Depends(get_db)):
     if request.method == "POST":
         story = crud.get_story(db=db, story_id=story_id)
         if story:
-            try:
-                data = await request.json()
-                prompt_text = data.get("prompt", {}).get("text")
-                if prompt_text:
-                    new_part = await generate_story_part(prompt_text)
+                    new_part = await generate_story_part(prompt)
                     if new_part:
                         story.content += new_part
                         db.commit()
                         db.refresh(story)
                         return story
-            except Exception as e:
-                raise HTTPException(status_code=status.HTTP_422_UNPROCESSABLE_ENTITY, detail=str(e))
 
     raise HTTPException(status_code=status.HTTP_405_METHOD_NOT_ALLOWED, detail="Method Not Allowed")
 
