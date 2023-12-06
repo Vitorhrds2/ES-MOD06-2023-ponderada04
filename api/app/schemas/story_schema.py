@@ -8,10 +8,10 @@ class StoryBase(BaseModel):
     content: str
 
 class StoryCreate(StoryBase):
-    id: int
     pass
 
 class Story(StoryBase):
+    id: int
 
     class Config:
         orm_mode = True

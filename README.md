@@ -4,7 +4,7 @@ Ponderada 4 do módulo 6 de Engenharia de Software - 2023
 # API de Gerenciamento de Usuários & Histórias
 
 ## Descrição
-Este projeto é uma API simples para gerenciamento de usuários e histórias, utilizando o framework FastAPI e a API do ChatGPT.
+Este projeto é uma API simples para gerenciamento de usuários e histórias, utilizando o framework FastAPI e a API do Inferkit (antigo TalkToTransform).
 
 ## Instalação
 1. Clone o repositório para sua máquina local:

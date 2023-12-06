@@ -5,25 +5,33 @@
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>User & Story Management</title>
+    <link rel="stylesheet" type="text/css" href="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/css/bootstrap.min.css">
     <link rel="stylesheet" type="text/css" href="{{ url_for('static', path='styles.css') }}">
 </head>
 <body>
-    <div id="app">
-        <h1>User & Story Management</h1>
-        <div>
-            <button onclick="registerUser()">Register User</button>
-            <button onclick="loginUser()">Login User</button>
-            <button onclick="logoutUser()">Logout User</button>
+    <div id="app" class="container mt-5">
+        <h1 class="mb-4">User & Story Management</h1>
+        <div id="auth-section">
+            <div class="mb-3">
+                <button class="btn btn-primary mr-2" onclick="registerUser()">Register User</button>
+                <button class="btn btn-primary mr-2" onclick="loginUser()">Login User</button>
+                <button class="btn btn-danger" onclick="logoutUser()">Logout User</button>
+            </div>
+            <div id="user-info" style="display: none;" class="mb-3">
+                <p>Welcome, <span id="username"></span>!</p>
+            </div>
         </div>
-        <div id="user-info" style="display: none;">
-            <p>Welcome, <span id="username"></span>!</p>
+        <div id="story-section" style="display: none;">
+            <div class="mb-3">
+                <button class="btn btn-success mr-2" onclick="createStory()">Create Story</button>
+                <button class="btn btn-warning" onclick="completeStory()">Complete Story</button>
+            </div>
+            <div id="story-container"></div>
         </div>
-        <div>
-            <button onclick="createStory()">Create Story</button>
-            <button onclick="completeStory()">Get Random Story</button>
-        </div>
-        <div id="story-container"></div>
     </div>
     <script src="{{ url_for('static', path='app.js') }}"></script>
+    <script src="https://code.jquery.com/jquery-3.3.1.slim.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.14.7/umd/popper.min.js"></script>
+    <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/js/bootstrap.min.js"></script>
 </body>
 </html>

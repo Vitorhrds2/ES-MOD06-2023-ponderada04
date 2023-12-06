@@ -9,6 +9,9 @@ def create_story(db: Session, story: StoryCreate):
     db.refresh(db_story)
     return db_story
 
+def get_stories(db: Session):
+    return db.query(Story).all()
+
 def get_story(db: Session, story_id: int):
     return db.query(Story).filter(Story.id == story_id).first()
 
