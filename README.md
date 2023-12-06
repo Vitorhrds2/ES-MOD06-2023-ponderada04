@@ -1,6 +1,5 @@
 Ponderada 4 do módulo 6 de Engenharia de Software - 2023
 
-```markdown
 # API de Gerenciamento de Usuários & Histórias
 
 ## Descrição
