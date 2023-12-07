@@ -1,0 +1,29 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>User & Story Management</title>
+    <link rel="stylesheet" type="text/css" href="{{ url_for('static', path='styles.css') }}">
+</head>
+<body>
+    <div id="app">
+        <h1>User & Story Management</h1>
+        <div>
+            <button onclick="registerUser()">Register User</button>
+            <button onclick="loginUser()">Login User</button>
+            <button onclick="logoutUser()">Logout User</button>
+        </div>
+        <div id="user-info" style="display: none;">
+            <p>Welcome, <span id="username"></span>!</p>
+        </div>
+        <div>
+            <button onclick="createStory()">Create Story</button>
+            <button onclick="completeStory()">Get Random Story</button>
+        </div>
+        <div id="story-container"></div>
+    </div>
+    <script src="{{ url_for('static', path='app.js') }}"></script>
+</body>
+</html>
